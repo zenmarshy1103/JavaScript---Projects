@@ -1,130 +1,50 @@
-// Learn to code (Exercise Completed)
-//- 1) Understand the problems:
-//- 2) Break Up into sub-problems
-//- 3) Exercise completed using functions
+// Learn to code (Debugging)
+//- 1) Identify Bug(s)
+//- 2) Find the bug
+//- 3) Fix the bug
+//- 4) Prevent the bug from happening again
 "use strict";
 
-// PROBLEM 1:
-// We work for a company building a smart home thermometer. 
-//Our most recent task is this: "Given an array of temperatures of one day, 
-//calculate the temperature amplitude. Keep in mind that sometimes there might be 
-//a sensor error."
+//Example - convert Celcius to Kelvin for temperature input 
 
-// 1) Understand the problems:
-// > What is temp amplitude?
-// > How to compute max and min temperature
-// > What to do when there is a sensor error
+//Create a function that creates a object  and converts the object temperature value property to kelvin
+function convertToKelvin() {
+    //construct a object for temperature reading
+    const measurement = {
+        type: 'temp',
+        unit: 'celsius',
+        value: prompt('Degree Celsius'),
+    }; 
+    
+    //Find the bug Check the property type
+    //console.log(measurement); // Value is getting a string from the prompt command
+    //A better way to view
+    console.table(measurement);
 
-// 2) Break Up into sub-problems
-// > How to ignore errors?
-// > Find max value in an array
-// > Find min value in an array
-// > Subtract min from max to get the amplitude and return the value 
-
-const temperatures = [3, -2, -6, -1, 'error', 9, 13, 17, 15, 14, 9, 5];
-
-console.log(`---------- Arrange the array to have no 'error' in it ----------`);
-//Copy the array to not include the 'error' 
-// if (temperatures.includes('error') == true) {
-//     console.log(`Error is present is in the array`)
-//     for (let i = 0; i < temperatures.length; i++){
-//         if (temperatures[i] !== `error`){
-//             newTempArray.push(temperatures[i]);
-//         }else {
-//             continue;
-//         }
-//     }
-// }
-//
-// console.log(newTempArray);
-
-//Turning the above array copy neglecting 'error' into function expression and assign it to a new array
-// let newTempArray = [];
-
-// let tempArray = function(temps) { 
-//     tempArray = []; 
-//     // console.log(typeof(tempArray)) 
-//     if (temps.includes('error') == true) {
-//         console.log(`Error is present is in the array`)
-//         for (let i = 0; i < temps.length; i++){
-//             if (temps[i] !== `error`){
-//                 tempArray.push(temps[i]);
-//             }else {
-//                     continue;
-//             }
-//         }       
-//     }
-//     return tempArray;
-// }
-
-// console.log(newTempArray = tempArray(temperatures));
-
-// Turning the above function expression to function declaration 
-function newTempArray(temps) { 
-    let tempArray = [];       
-    if (temps.includes('error') == true) {
-        // console.log(`Error is present is in the array`)
-        for (let i = 0; i < temps.length; i++){
-            if (temps[i] !== `error`){
-                tempArray.push(temps[i]);
-            }else {
-                    continue;
-            }
-        }       
-    }
-    return tempArray;    
-}
-
-const newArrangedArray = newTempArray(temperatures);
-console.log(newArrangedArray);
-
-//Find the max value of the array
-
-
-function maxValueFinder(tempArray) {
-    let arrayMaxValue = tempArray[0];
-    for (let i = 1; i < tempArray.length; i++) {
-        if (arrayMaxValue < tempArray[i]) {
-            arrayMaxValue = tempArray[i]
-        }
-    }
-    return arrayMaxValue;
-}
-
-const maxValue = maxValueFinder(newArrangedArray);
-// console.log(maxValue);
-
-
-//Find the min value of the array
-function minValueFinder(tempArray) {
-    let arrayMinValue = tempArray[0];
-    for (let i = 1; i < tempArray.length; i++) {
-        if (arrayMinValue > tempArray[i]) {
-            arrayMinValue = tempArray[i]
-        }
-    }
-    return arrayMinValue;
-}
-
-const minValue = minValueFinder(newArrangedArray);
-// console.log(minValue);
-
-
-//Find the amplitude (maxValue - minValue)
-function amplitudeCalc(maxValue, minValue) {
-    const amplitude = maxValue - minValue;
-    return amplitude;
-}
-
-const arrayAmplitude = amplitudeCalc(maxValue, minValue);
-console.log(`The amplitude of the temperature reading is ${arrayAmplitude}.`);
+    //converting temperaure value to kelvin
+    //const kelvin = Number measurement.value + 273; // <- BUG is here
+    const kelvin = Number(measurement.value) + 273;  // <- FIX: turning the sting type value from prompt to number
+    return kelvin;
+    
+};
 
 
 
 
+let measureKelvin = convertToKelvin();
+console.log(measureKelvin);
 
 
+//1- Identify Bug
+// > Temperature(degree Celcius input): 23 C
+// > Kelvin output: 6279 (From console.) - INCORRECT
+// > Correct Kelvin output: 296 K
+
+//2- Find the bug
+// > Using console.log to check what each of the property is getting
+// > value is a string type as it is obtained from the prompt command
 
 
-
+//3- Fix the bug
+// > turn the input from the prompt command to number type
 

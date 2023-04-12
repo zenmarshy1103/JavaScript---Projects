@@ -3,6 +3,7 @@
 //- 2) Find the bug
 //- 3) Fix the bug
 //- 4) Prevent the bug from happening again
+//- 5) Using debugger tool - Sources on devTool
 "use strict";
 
 //Example - convert Celcius to Kelvin for temperature input 
@@ -18,7 +19,7 @@ function convertToKelvin() {
     
     //Find the bug Check the property type
     //console.log(measurement); // Value is getting a string from the prompt command
-    //A better way to view
+    //A better way to view (gives a table with value assigned to index)
     console.table(measurement);
 
     //converting temperaure value to kelvin

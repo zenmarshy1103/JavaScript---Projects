@@ -21,3 +21,9 @@
  > Find the bug in the code (using Developer console(simple code) or Debugger(complex code)
  > Fix the bug - Replace wrong code with the new code that fixes the bug
  > Prvent the bug from happening again - Write tests to test it or search for the same bug in similar code
+ >
+ > DEBUGGER - In Developer Console 
+ > Click on Sources tab 
+ > Set breakpoints for the code you want to examine (Execution will freeze a that time)
+ > Once freeze press the step button to check line by line
+ > - Quick Execution: Put 'debugger;" at the top of the code that you would like to check after saving it will open up the debugger tool immediately

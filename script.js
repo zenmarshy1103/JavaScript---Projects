@@ -1,7 +1,7 @@
-// Implementing the game Logic for the Guess My Number Project
+// Manipulating CSS Styles
 // - DOM Manipulation (Making Javascript to interact with the web page )
-// - 
-// -
+// - Change the styles for the HTML element using its CSS properties
+// - All the changes will be inline and will not change the CSS file
 
 'use strict';
 // DOM (Document Object Model) 
@@ -23,11 +23,18 @@ document.querySelector('.check').addEventListener('click', function() {    //fun
     const guess = Number(document.querySelector('.guess').value);
     console.log(guess, typeof(guess));
 
-    // > Check if the guess field is entered or value entered is too high or low or correct and changes the score
+    // Check if the guess field is entered or value entered is too high or low or correct and changes the score
+   
+     
     if (!guess) {
         document.querySelector('.message').textContent = '!No Number was Entered!';
     } else if (guess === secretNumber) {
-        document.querySelector('.message').textContent = 'Correct Number!';       
+        document.querySelector('.message').textContent = 'Correct Number!';
+        // > CSS > change the body parent to green when the guess is correct (.style.backgroundColor = ' ')
+        document.querySelector('body').style.backgroundColor= '#60b347';
+        //  > CSS > change the width of the box to become wider when the guess is correct (.style.width = ' ')
+        document.querySelector('.number').style.width= '30rem';
+
     } else if (guess > secretNumber) {
 
         if(score > 1) {
@@ -48,11 +55,10 @@ document.querySelector('.check').addEventListener('click', function() {    //fun
         }else {
             document.querySelector('.message').textContent = 'You Lost !!!';
             document.querySelector('.score').textContent = 0;
-        }
-        
-       
+        }       
     }
-
 });  
+
+
 
 

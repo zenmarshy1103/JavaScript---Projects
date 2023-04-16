@@ -1,4 +1,4 @@
-// Manipulating CSS Styles
+// Manipulating CSS Styles (Challenge: Implement the reset functionality)
 // - DOM Manipulation (Making Javascript to interact with the web page )
 // - Change the styles for the HTML element using its CSS properties
 // - All the changes will be inline and will not change the CSS file
@@ -10,9 +10,7 @@
 //  - DOM is not a part of Javascript but WEB API (DOM methods and properties) that we can access from Javascript code
 
 // > Define the secret number
-const secretNumber = Math.trunc(Math.random() * 20 + 1);
-document.querySelector('.number').textContent = secretNumber;
-
+let secretNumber = Math.trunc(Math.random() * 20 + 1);
 let score = 20;
 
 // > Guess Logic for the game
@@ -20,7 +18,7 @@ let score = 20;
 // and triggers a event handling function (.addEventLister(typeOfEvent, eventHandler))
 document.querySelector('.check').addEventListener('click', function() {    //function is another value when returned so can be used as an input argument
     // console.log(document.querySelector('.guess').value);
-    const guess = Number(document.querySelector('.guess').value);
+    let guess = Number(document.querySelector('.guess').value);
     console.log(guess, typeof(guess));
 
     // Check if the guess field is entered or value entered is too high or low or correct and changes the score
@@ -29,6 +27,7 @@ document.querySelector('.check').addEventListener('click', function() {    //fun
     if (!guess) {
         document.querySelector('.message').textContent = '!No Number was Entered!';
     } else if (guess === secretNumber) {
+        document.querySelector('.number').textContent = secretNumber; //Shows the secret number when the guess is correct
         document.querySelector('.message').textContent = 'Correct Number!';
         // > CSS > change the body parent to green when the guess is correct (.style.backgroundColor = ' ')
         document.querySelector('body').style.backgroundColor= '#60b347';
@@ -57,6 +56,29 @@ document.querySelector('.check').addEventListener('click', function() {    //fun
             document.querySelector('.score').textContent = 0;
         }       
     }
+
+    //Challenge
+    // Implement the reset functionality, so a new game can be triggered
+
+    // 1. Select the element with the again class and attach a click event handler
+    document.querySelector('.again').addEventListener('click', function() {
+        // 2. In the handler function, restore the initial values of the score and the secret number
+        score = 20;
+        document.querySelector('.score').textContent = score;
+        secretNumber = Math.trunc(Math.random() * 20 + 1);          
+        
+        // 3. Restore the initial conditions of the Message, number , score and the guess input field 
+        document.querySelector('.message').textContent = 'Start guessing...';
+        document.querySelector('.number').textContent = '?';          
+        document.querySelector('.highscore').textContent = 0;
+        document.querySelector('.guess').value = ''; //Setting the guess input field to show blank
+        guess = Number(document.querySelector('.guess').value); //create a new random number        
+        
+        // 4. Restore the origianl backgorund color (#222) and with (15rem)
+        document.querySelector('body').style.backgroundColor = '#222';
+        document.querySelector('.number').style.width= '15rem';
+    });
+    
 });  
 
 

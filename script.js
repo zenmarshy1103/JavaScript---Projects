@@ -1,9 +1,9 @@
-// Manipulating CSS Styles (Implement the highscores)
+// Refactoring Our Code - The DRY Principle (Don't Repeat Yourself Principle)
 // - DOM Manipulation (Making Javascript to interact with the web page )
-// - Change the styles for the HTML element using its CSS properties
-// - All the changes will be inline and will not change the CSS file
-
+// - Getting rid of repeating code in the program
+// - Ideal: Put repeating codes as a function and call it 
 'use strict';
+
 // DOM (Document Object Model) 
 //  - Representation of HTML documents. Allowing Javascript to access the elements and styles and manipulate them
 //  - DOM is structured in a TREE Structure, each HTML element is an object
@@ -15,7 +15,7 @@ let score = 20;
 // > define the highscore to be 0 to start with
 let highscore = 0;
 
-// > Guess Logic for the game
+// Guess Logic for the game
 // Listen for a click on the check button element with (.addEventListener(typeOfEvent) ) method
 // and triggers a event handling function (.addEventLister(typeOfEvent, eventHandler))
 document.querySelector('.check').addEventListener('click', function() {    //function is another value when returned so can be used as an input argument
@@ -42,29 +42,42 @@ document.querySelector('.check').addEventListener('click', function() {    //fun
             document.querySelector('.highscore').textContent = highscore;
         }
 
-
-    } else if (guess > secretNumber) {
-
+// > Refactoring Duplicated Code 
+    // > When guess is wrong  and add tenery conditional operator check to assign to the .message when the guess is higher or lower than the secret number  
+    } else if (guess !== secretNumber) {
         if(score > 1) {
-            document.querySelector('.message').textContent = 'Guess is too high';
+            document.querySelector('.message').textContent = guess > secretNumber? 'Guess is too high' : document.querySelector('.message').textContent = 'Guess is too low';
             score--;  //decrease the score   
             document.querySelector('.score').textContent = score;
         }else {
             document.querySelector('.message').textContent = 'You Lost !!!';
             document.querySelector('.score').textContent = 0;
         }
-    
-    } else if (guess < secretNumber) {
-        // Repeating code - will deal with this later 
-        if(score > 1) {
-            document.querySelector('.message').textContent = 'Guess is too low';
-            score--;  //decrease the score   
-            document.querySelector('.score').textContent = score;
-        }else {
-            document.querySelector('.message').textContent = 'You Lost !!!';
-            document.querySelector('.score').textContent = 0;
-        }       
-    }
+
+
+     } //else if (guess > secretNumber) {
+//         if(score > 1) {
+//             document.querySelector('.message').textContent = 'Guess is too high';
+//             score--;  //decrease the score   
+//             document.querySelector('.score').textContent = score;
+//         }else {
+//             document.querySelector('.message').textContent = 'You Lost !!!';
+//             document.querySelector('.score').textContent = 0;
+//         }
+
+        
+// // > Refactoring Duplicated Code     
+//     } else if (guess < secretNumber) {
+//         // Repeating code - will deal with this later 
+//         if(score > 1) {
+//             document.querySelector('.message').textContent = 'Guess is too low';
+//             score--;  //decrease the score   
+//             document.querySelector('.score').textContent = score;
+//         }else {
+//             document.querySelector('.message').textContent = 'You Lost !!!';
+//             document.querySelector('.score').textContent = 0;
+//         }       
+//     }
 
     //Challenge
     // Implement the reset functionality, so a new game can be triggered

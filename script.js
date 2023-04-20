@@ -1,54 +1,78 @@
-// Project - Pig Game (Rolling the dice)
-// - Pressing rolle Dice will trigger a random dice picture to be generated and show on the screen
-// - Current score for player 1 increments on each dice roll ()
-// -
-
-
+// >> Project - Modal Window Completed
+// Website functionality - Clicking a tag brings out a window with texts and can remove it on keypress and mouse clicks
 'use strict';
 
-//Selected elements stored in varaiables
-const score0El = document.querySelector('#score--0');
-const score1El = document.getElementById('score--1') //another way of getting the ID from the HTML document
-const dicePic = document.querySelector('.dice');
-const newGameBtn = document.querySelector ('.btn--new');
-const rollDiceBtn = document.querySelector('.btn--roll');
-const holdScoreBtn = document.querySelector('.btn--hold');
-const current0El = document.getElementById('current--0');
-const current1El = document.getElementById('current--1')
+// Varaibles storing HTML elements that is needed for this project
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
+const btnCloseModal = document.querySelector('.close-modal');
+const btnsOpenModal = document.querySelectorAll('.show-modal'); //.querySelectorAll  - selects all elements with the same name and put them in an array format
+// console.log(btnsOpenModal);
 
-// console.log(randomDice);
+//Functions
+// Closing Overlay and Modal Box
+const closeModal = function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
 
+// Open Overlay and Modal Box
+const openModal = function () {
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
 
+// Adding the functality when clicking each of the show modal buttons
+// <NOTE> When dealing with an array with html elements when returned from .querySelectorAll()
+//        A for loop is needed to access each of the buttons in the array
+for (let i = 0; i < btnsOpenModal.length; i++) {
+  // console.log(btnsOpenModal[i].textContent);
+  // > Function to un-hide the modal window and overlay when any of the buttons is clicked
+  // btnsOpenModal[i].addEventListener('click', function() {
+  //     console.log(`button ${btnsOpenModal[i].textContent} clicked`); // Check to see which button is clicked and return its text content in its HTML element
+  //     //Removing class - to show the modal window
+  //     modal.classList.remove('hidden');
+  //     //Removing class - to show the overlay
+  //     overlay.classList.remove('hidden');
+  // });
+  btnsOpenModal[i].addEventListener('click', openModal);
+  btnsOpenModal[i].addEventListener('click', function () {
+    console.log(`button ${btnsOpenModal[i].textContent} clicked`);
+  });
+}
 
-//Starting Conditions
-score0El.textContent = 0;
-score1El.textContent = 0;
-dicePic.classList.add("hidden"); //Add a hidden class in the CSS first then use the hidden class to make the dice disappear at the start of the game
-let currentScore = 0;
+// Call back function in EventListener:
+//  - Only the name of the function is passed in without the (), if function() is passed in with the ()
+//  - Javascript will immediately call the function as soon as the code runs.
+//  - Having only the function passed in without the () will allow the function to be called when the even happens.
 
-// > Rolling the dice functionality
-rollDiceBtn.addEventListener('click', function() {
-    // 1. Generate a randome dice roll
-    const randomDice = Math.trunc(Math.random() * 6) + 1;
-    // 2. Display dice
-    dicePic.classList.remove('hidden');
-    dicePic.src = `dice-${randomDice}.png`; //.src accesses the src attribute of the selected element on the HTML
-    
+// Implementing the closing of the modal box and overlay when the close button is clicked
+btnCloseModal.addEventListener('click', closeModal);
 
-    // 3. Check for a 1: if true, sweith to next player
-    if (randomDice !== 1) {
-        // Add Dice value to store 
-        currentScore += randomDice;
-        //  - Change Later to allow the game to run, currently just checking if the current score gets updated
-        current0El.textContent = currentScore;
+// Implementing the closing of the modal box when the user click anywhere outside the modal box
+overlay.addEventListener('click', closeModal);
 
+// > Key Press event using 'ESC' key
+//  - Keyboard events are global event as it does not happen on one specific element
+//  - Global event are usually used to listen on the whole document
+//  - the argument of the function in an eventLister function automatically gets the event of the type you specify ie keydown event in this case
+document.addEventListener('keydown', function (event) {
+  // console.log(typeof(event.key), event.key);
 
-    } else {
-        // Switch to next player
+  // if(event.key === 'Escape') {
+  //     // > Check to see if the modal class does not contain hidden (meaning the modal is showing on the page)
+  //     //   then execute the function to turn it off when the escape key is pressed
+  //     if (!modal.classList.contains('hidden')){
+  //         console.log(`${event.key} key was pressed - Modal Closed`)
+  //         closeModal();
+  //     };
+  //}
 
-    };
-    
-    
-
-
+  // > Refactoring the above conditional operator
+  // > Check to see if the modal class does not contain hidden (meaning the modal is showing on the page)
+  //   then execute the function to turn it off when the escape key is pressed
+  if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+    console.log(`${event.key} key was pressed - Modal Closed`);
+    closeModal();
+  }
 });

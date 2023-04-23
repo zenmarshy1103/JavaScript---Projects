@@ -1,78 +1,115 @@
-// >> Project - Modal Window Completed
-// Website functionality - Clicking a tag brings out a window with texts and can remove it on keypress and mouse clicks
+// Project - Pig Game (Resetting the Game)
+// - Reset the game to initial values
+// - setting a initialisation function for resetting the game and running it at the start of the program when the web loads
+// - Familiarise with global variable to avoid scoping (where if the variable is used only in the function)
+
 'use strict';
+const POINTSTOWIN = 100;
 
-// Varaibles storing HTML elements that is needed for this project
-const modal = document.querySelector('.modal');
-const overlay = document.querySelector('.overlay');
-const btnCloseModal = document.querySelector('.close-modal');
-const btnsOpenModal = document.querySelectorAll('.show-modal'); //.querySelectorAll  - selects all elements with the same name and put them in an array format
-// console.log(btnsOpenModal);
+//Selected elements stored in varaiables
+const score0El = document.querySelector('#score--0');
+const score1El = document.getElementById('score--1'); //another way of getting the ID from the HTML document
+const dicePic = document.querySelector('.dice');
+const newGameBtn = document.querySelector('.btn--new');
+const rollDiceBtn = document.querySelector('.btn--roll');
+const holdScoreBtn = document.querySelector('.btn--hold');
+const current0El = document.getElementById('current--0');
+const current1El = document.getElementById('current--1');
 
-//Functions
-// Closing Overlay and Modal Box
-const closeModal = function () {
-  modal.classList.add('hidden');
-  overlay.classList.add('hidden');
+//Player Element
+const player0El = document.querySelector(`.player--0`);
+const player1El = document.querySelector(`.player--1`);
+
+// console.log(randomDice);
+
+//Global variables (Is useable everywhere in the code ie functions etc)
+let currentScore, activePlayer, scores, playing;
+
+// Make starting condition into initialisation function and call it whenever a initialisation is needed during the game
+const init = function () {
+  currentScore = 0;
+  //Current player tracker 0 = Player 1  1 = player 2
+  activePlayer = 0;
+  //Score Tracker  index 0 is player 1 and index 1 is player 2
+  scores = [0, 0];
+  //Game state checker
+  playing = true; //true = playing , false = stopped
+
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+  dicePic.classList.add('hidden'); //Add a hidden class in the CSS first then use the hidden class to make the dice disappear at the start of the game
 };
 
-// Open Overlay and Modal Box
-const openModal = function () {
-  modal.classList.remove('hidden');
-  overlay.classList.remove('hidden');
+//Run the initialisation function when the site loads
+init();
+
+//> Reset the game
+newGameBtn.addEventListener('click', init);
+
+const switchPlayer = function () {
+  currentScore = 0; // re zero the current score counter to zero or the score will continue off from where the previous player was on
+  activePlayer = activePlayer === 0 ? 1 : 0; //Tenary operator for checking if the current player is 0 if it is then current player will be 1 and if not player 0 then be player 0
+  // Shows which player's turn it is currently
+  // .classList.toggle() method removes the class when it is there and add the class when it is not there
+  player0El.classList.toggle(`player--active`);
+  player1El.classList.toggle(`player--active`);
 };
 
-// Adding the functality when clicking each of the show modal buttons
-// <NOTE> When dealing with an array with html elements when returned from .querySelectorAll()
-//        A for loop is needed to access each of the buttons in the array
-for (let i = 0; i < btnsOpenModal.length; i++) {
-  // console.log(btnsOpenModal[i].textContent);
-  // > Function to un-hide the modal window and overlay when any of the buttons is clicked
-  // btnsOpenModal[i].addEventListener('click', function() {
-  //     console.log(`button ${btnsOpenModal[i].textContent} clicked`); // Check to see which button is clicked and return its text content in its HTML element
-  //     //Removing class - to show the modal window
-  //     modal.classList.remove('hidden');
-  //     //Removing class - to show the overlay
-  //     overlay.classList.remove('hidden');
-  // });
-  btnsOpenModal[i].addEventListener('click', openModal);
-  btnsOpenModal[i].addEventListener('click', function () {
-    console.log(`button ${btnsOpenModal[i].textContent} clicked`);
-  });
-}
+// Rolling the dice functionality
+// > ADDED - a game checker if it is playing then runs the code if not stops the rolling of the die
+rollDiceBtn.addEventListener('click', function () {
+  if (playing) {
+    //Only runs the code if the status is true
+    // 1. Generate a randome dice roll
+    const randomDice = Math.trunc(Math.random() * 6) + 1;
+    // 2. Display dice
+    dicePic.classList.remove('hidden');
+    dicePic.src = `dice-${randomDice}.png`; //.src accesses the src attribute of the selected element on the HTML
 
-// Call back function in EventListener:
-//  - Only the name of the function is passed in without the (), if function() is passed in with the ()
-//  - Javascript will immediately call the function as soon as the code runs.
-//  - Having only the function passed in without the () will allow the function to be called when the even happens.
+    // 3. Check for a 1: if true, switch to next player
+    if (randomDice !== 1) {
+      // Add Dice value to score
+      currentScore += randomDice;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    } else {
+      document.getElementById(`current--${activePlayer}`).textContent = 0; // Set the current player score to zero
+      switchPlayer();
+    }
+  }
+});
 
-// Implementing the closing of the modal box and overlay when the close button is clicked
-btnCloseModal.addEventListener('click', closeModal);
+holdScoreBtn.addEventListener('click', function () {
+  if (playing) {
+    //Only runs the code if the status is true
+    // 1. Add current score to the current active player's score
+    // Store it in the score array
+    scores[activePlayer] += currentScore;
+    //Show it on the player score on the page dymatically
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
 
-// Implementing the closing of the modal box when the user click anywhere outside the modal box
-overlay.addEventListener('click', closeModal);
-
-// > Key Press event using 'ESC' key
-//  - Keyboard events are global event as it does not happen on one specific element
-//  - Global event are usually used to listen on the whole document
-//  - the argument of the function in an eventLister function automatically gets the event of the type you specify ie keydown event in this case
-document.addEventListener('keydown', function (event) {
-  // console.log(typeof(event.key), event.key);
-
-  // if(event.key === 'Escape') {
-  //     // > Check to see if the modal class does not contain hidden (meaning the modal is showing on the page)
-  //     //   then execute the function to turn it off when the escape key is pressed
-  //     if (!modal.classList.contains('hidden')){
-  //         console.log(`${event.key} key was pressed - Modal Closed`)
-  //         closeModal();
-  //     };
-  //}
-
-  // > Refactoring the above conditional operator
-  // > Check to see if the modal class does not contain hidden (meaning the modal is showing on the page)
-  //   then execute the function to turn it off when the escape key is pressed
-  if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
-    console.log(`${event.key} key was pressed - Modal Closed`);
-    closeModal();
+    // 2. Check if the score is >= 100
+    if (scores[activePlayer] >= POINTSTOWIN) {
+      //Yes: Finish the game
+      playing = false;
+      dicePic.classList.add('hidden'); // Hide the dice picture
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add(`player--winner`);
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove(`player--active`);
+    } else {
+      //NO: Switch to the next player
+      switchPlayer();
+    }
   }
 });

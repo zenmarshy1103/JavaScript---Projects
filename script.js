@@ -1,7 +1,7 @@
-// Project - Pig Game (Resetting the Game)
-// - Reset the game to initial values
-// - setting a initialisation function for resetting the game and running it at the start of the program when the web loads
-// - Familiarise with global variable to avoid scoping (where if the variable is used only in the function)
+// Project - Pig Game (Completed)
+// 
+// 
+// 
 
 'use strict';
 const POINTSTOWIN = 100;

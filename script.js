@@ -1,115 +1,107 @@
-// Project - Pig Game (Completed)
-// 
-// 
-// 
-
+// Creating DOM Elements
+// - Creating HTML literals in JS
+// - Insert HTML Literals onto the DOM
+  
 'use strict';
-const POINTSTOWIN = 100;
 
-//Selected elements stored in varaiables
-const score0El = document.querySelector('#score--0');
-const score1El = document.getElementById('score--1'); //another way of getting the ID from the HTML document
-const dicePic = document.querySelector('.dice');
-const newGameBtn = document.querySelector('.btn--new');
-const rollDiceBtn = document.querySelector('.btn--roll');
-const holdScoreBtn = document.querySelector('.btn--hold');
-const current0El = document.getElementById('current--0');
-const current1El = document.getElementById('current--1');
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// BANKIST APP
 
-//Player Element
-const player0El = document.querySelector(`.player--0`);
-const player1El = document.querySelector(`.player--1`);
-
-// console.log(randomDice);
-
-//Global variables (Is useable everywhere in the code ie functions etc)
-let currentScore, activePlayer, scores, playing;
-
-// Make starting condition into initialisation function and call it whenever a initialisation is needed during the game
-const init = function () {
-  currentScore = 0;
-  //Current player tracker 0 = Player 1  1 = player 2
-  activePlayer = 0;
-  //Score Tracker  index 0 is player 1 and index 1 is player 2
-  scores = [0, 0];
-  //Game state checker
-  playing = true; //true = playing , false = stopped
-
-  score0El.textContent = 0;
-  score1El.textContent = 0;
-  current0El.textContent = 0;
-  current1El.textContent = 0;
-
-  player0El.classList.remove('player--winner');
-  player1El.classList.remove('player--winner');
-  player0El.classList.add('player--active');
-  player1El.classList.remove('player--active');
-  dicePic.classList.add('hidden'); //Add a hidden class in the CSS first then use the hidden class to make the dice disappear at the start of the game
+// Data
+const account1 = {
+  owner: 'Jonas Schmedtmann',
+  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  interestRate: 1.2, // %
+  pin: 1111,
 };
 
-//Run the initialisation function when the site loads
-init();
-
-//> Reset the game
-newGameBtn.addEventListener('click', init);
-
-const switchPlayer = function () {
-  currentScore = 0; // re zero the current score counter to zero or the score will continue off from where the previous player was on
-  activePlayer = activePlayer === 0 ? 1 : 0; //Tenary operator for checking if the current player is 0 if it is then current player will be 1 and if not player 0 then be player 0
-  // Shows which player's turn it is currently
-  // .classList.toggle() method removes the class when it is there and add the class when it is not there
-  player0El.classList.toggle(`player--active`);
-  player1El.classList.toggle(`player--active`);
+const account2 = {
+  owner: 'Jessica Davis',
+  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  interestRate: 1.5,
+  pin: 2222,
 };
 
-// Rolling the dice functionality
-// > ADDED - a game checker if it is playing then runs the code if not stops the rolling of the die
-rollDiceBtn.addEventListener('click', function () {
-  if (playing) {
-    //Only runs the code if the status is true
-    // 1. Generate a randome dice roll
-    const randomDice = Math.trunc(Math.random() * 6) + 1;
-    // 2. Display dice
-    dicePic.classList.remove('hidden');
-    dicePic.src = `dice-${randomDice}.png`; //.src accesses the src attribute of the selected element on the HTML
+const account3 = {
+  owner: 'Steven Thomas Williams',
+  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  interestRate: 0.7,
+  pin: 3333,
+};
 
-    // 3. Check for a 1: if true, switch to next player
-    if (randomDice !== 1) {
-      // Add Dice value to score
-      currentScore += randomDice;
-      document.getElementById(`current--${activePlayer}`).textContent =
-        currentScore;
-    } else {
-      document.getElementById(`current--${activePlayer}`).textContent = 0; // Set the current player score to zero
-      switchPlayer();
-    }
-  }
-});
+const account4 = {
+  owner: 'Sarah Smith',
+  movements: [430, 1000, 700, 50, 90],
+  interestRate: 1,
+  pin: 4444,
+};
 
-holdScoreBtn.addEventListener('click', function () {
-  if (playing) {
-    //Only runs the code if the status is true
-    // 1. Add current score to the current active player's score
-    // Store it in the score array
-    scores[activePlayer] += currentScore;
-    //Show it on the player score on the page dymatically
-    document.getElementById(`score--${activePlayer}`).textContent =
-      scores[activePlayer];
+const accounts = [account1, account2, account3, account4];
 
-    // 2. Check if the score is >= 100
-    if (scores[activePlayer] >= POINTSTOWIN) {
-      //Yes: Finish the game
-      playing = false;
-      dicePic.classList.add('hidden'); // Hide the dice picture
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.add(`player--winner`);
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove(`player--active`);
-    } else {
-      //NO: Switch to the next player
-      switchPlayer();
-    }
-  }
-});
+// Elements
+const labelWelcome = document.querySelector('.welcome');
+const labelDate = document.querySelector('.date');
+const labelBalance = document.querySelector('.balance__value');
+const labelSumIn = document.querySelector('.summary__value--in');
+const labelSumOut = document.querySelector('.summary__value--out');
+const labelSumInterest = document.querySelector('.summary__value--interest');
+const labelTimer = document.querySelector('.timer');
+
+const containerApp = document.querySelector('.app');
+const containerMovements = document.querySelector('.movements');
+
+const btnLogin = document.querySelector('.login__btn');
+const btnTransfer = document.querySelector('.form__btn--transfer');
+const btnLoan = document.querySelector('.form__btn--loan');
+const btnClose = document.querySelector('.form__btn--close');
+const btnSort = document.querySelector('.btn--sort');
+
+const inputLoginUsername = document.querySelector('.login__input--user');
+const inputLoginPin = document.querySelector('.login__input--pin');
+const inputTransferTo = document.querySelector('.form__input--to');
+const inputTransferAmount = document.querySelector('.form__input--amount');
+const inputLoanAmount = document.querySelector('.form__input--loan-amount');
+const inputCloseUsername = document.querySelector('.form__input--user');
+const inputClosePin = document.querySelector('.form__input--pin');
+
+// Functions
+const displayMovements = function (movementsArray) {
+  // Clear previous data in the movement container
+  containerMovements.innerHTML = '';
+
+  // Using For Each array method to get the value of each of the element and the index number
+  movementsArray.forEach(function (movementValue, valueIndex) {
+    // Tenery Operator to check if the movementValue is deposits or withdraw
+    const movementType = movementValue > 0 ? `deposit` : `withdrawal`;
+
+    // Create HTML Literals
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${movementType}">${valueIndex + 1} ${movementType}</div>
+      <div class="movements__value">${movementValue}€</div>
+    </div>  
+    `;
+
+    // Insert HTML Literals onto the DOM into movement container 
+    // Using  insertAdjacentHTML method with afterbegin
+    //  - This will put the HTML literal with the last on the top of the beginning of the movement container html element
+    containerMovements.insertAdjacentHTML(`afterbegin`, html);
+
+  });
+};
+displayMovements(account1.movements);
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// LECTURES
+
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/////////////////////////////////////////////////

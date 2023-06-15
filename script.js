@@ -1,7 +1,12 @@
-// Creating DOM Elements
-// - Creating HTML literals in JS
-// - Insert HTML Literals onto the DOM
-  
+// Project Bank Simulator -  Computing Usernames
+//  - Adding a userName property in each of the object account element in the accounts array.
+
+
+
+// Array Methods
+// - Maps: Return a new array containing the results of applying an operation on all original array elements
+// - Filter: Return a new array containing the array elements that passed a specified test condition
+// - Reduce: Boils, reduces all array elements  down to one single value (ie adding all elements together and other methods)
 'use strict';
 
 /////////////////////////////////////////////////
@@ -66,6 +71,8 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // Functions
+
+// >> Function: Showing movement for account
 const displayMovements = function (movementsArray) {
   // Clear previous data in the movement container
   containerMovements.innerHTML = '';
@@ -78,19 +85,48 @@ const displayMovements = function (movementsArray) {
     // Create HTML Literals
     const html = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${movementType}">${valueIndex + 1} ${movementType}</div>
+      <div class="movements__type movements__type--${movementType}">${
+      valueIndex + 1
+    } ${movementType}</div>
       <div class="movements__value">${movementValue}€</div>
     </div>  
     `;
 
-    // Insert HTML Literals onto the DOM into movement container 
+    // Insert HTML Literals onto the DOM into movement container
     // Using  insertAdjacentHTML method with afterbegin
     //  - This will put the HTML literal with the last on the top of the beginning of the movement container html element
     containerMovements.insertAdjacentHTML(`afterbegin`, html);
-
   });
 };
 displayMovements(account1.movements);
+
+// > Function: Computing usernames for account
+
+// Testing to see if the ouput is the first letter of each word
+// const user = 'Steven Thomas Williams';
+// const userName = user.toLowerCase().split(' ');
+// console.log(userName);
+// Taking the first letter of each array ,['steven',  thomas', 'willams']
+// const userName = user.toLowerCase().split(' ').map((word) => word[0]).join('');
+// console.log(userName);
+
+// Turning the testing code into a function
+// - Create one username for each of the account holders in the accounts array
+const createUsernames = function(accountsArray){
+  //Use for each, modify the existing accountsArray's object element
+  //  - add a userName property to the object element for each account stored in the account array
+  accountsArray.forEach((account) => {
+    //This function is used to add property to an object element so no return is needed (side effect)
+        account.userName = account.owner.toLowerCase().split(' ').map((word) => word[0]).join('');
+  });
+}  
+createUsernames(accounts);
+console.log(accounts);
+
+
+
+
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -102,6 +138,7 @@ displayMovements(account1.movements);
 //   ['GBP', 'Pound sterling'],
 // ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+

@@ -1,7 +1,4 @@
-// Project Bank Simulator -  Computing Usernames
-//  - Adding a userName property in each of the object account element in the accounts array.
-
-
+// Project Bank Simulator -  Showing total Movement of Account 1 to the total on the Page
 
 // Array Methods
 // - Maps: Return a new array containing the results of applying an operation on all original array elements
@@ -100,6 +97,12 @@ const displayMovements = function (movementsArray) {
 };
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function(movements) {
+  const balance = movements.reduce((acc, movement) => acc + movement, 0)
+  labelBalance.textContent = `${balance} EUR`;
+}
+calcDisplayBalance(account1.movements);
+
 // > Function: Computing usernames for account
 
 // Testing to see if the ouput is the first letter of each word
@@ -112,18 +115,20 @@ displayMovements(account1.movements);
 
 // Turning the testing code into a function
 // - Create one username for each of the account holders in the accounts array
-const createUsernames = function(accountsArray){
+const createUsernames = function (accountsArray) {
   //Use for each, modify the existing accountsArray's object element
   //  - add a userName property to the object element for each account stored in the account array
-  accountsArray.forEach((account) => {
+  accountsArray.forEach(account => {
     //This function is used to add property to an object element so no return is needed (side effect)
-        account.userName = account.owner.toLowerCase().split(' ').map((word) => word[0]).join('');
+    account.userName = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
   });
-}  
+};
 createUsernames(accounts);
 console.log(accounts);
-
-
 
 
 
@@ -142,3 +147,33 @@ console.log(accounts);
 
 /////////////////////////////////////////////////
 
+// // >> Array - Reduce Method
+// //  - Loops over the array and call the callback function in each iteration
+// // <SYNTAX> .reduce(function(accumulator, currentValueAtCurrentIndex, currentIndex, entireArray), initialValueOfAccumulator)
+// // Accumulator is a snowball or a sum
+// // initialValueOfAccumulator is the value of the accumulator at the start of the iteration
+// const balance = movements.reduce(function(accumulator, currentValue, index, array) {
+//   console.log(`iteration ${index}: ${accumulator}`);
+//   return accumulator + currentValue;
+// }, 0);
+
+// console.log(balance);
+
+// // Using for of loop to do perform the functionality of the reduce method
+// // - Needs a variable to store total
+// // - Cannot method chain
+// let bankBalance = 0;
+// for (const movement of movements) {
+//   bankBalance += movement;
+// }
+// console.log("Using for of Loop:", bankBalance);
+
+// // Get the Maximum value of the array
+
+// const maxNumber = movements.reduce((acc, mov) =>{
+//   // Comparing accumulator and the current movement
+//   if (acc > mov) return acc;   //1st Iteration: acc = movement[0] , mov = 200 : return mov = 200 as the new acc
+//   else return mov;             //2nd Iteration: acc = 200, mov = 450: return mov= 450 as the new acc
+//                                // And so on ...
+// }, movements[0])
+// console.log(maxNumber);
